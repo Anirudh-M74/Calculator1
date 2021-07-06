@@ -83,4 +83,124 @@ document.getElementById("result").innerHTML = Math.cbrt(num1)
 <!-- Start of WebFreeCounter Code -->
 <img src="https://www.webfreecounter.com/hit.php?id=gnnxpc&nd=6&style=1" border="0" alt="web counter"></a>
 <!-- End of WebFreeCounter Code -->
+//var striker = createSprite(200,200,10,10)
+striker.shapeColor="white"
+var goal1 = createSprite(200,28,100,20)
+goal1.shapeColor="yellow"
+var goal2 = createSprite(200,372,100,20)
+goal2.shapeColor="yellow"
+var gameState = "serve"
+var cscore = 0
+var pscore = 0
+var playerPaddle = createSprite(196,46,50,10)
+var computerPaddle = createSprite(196,354,50,10)
+var boundries1=createSprite(200,14,400,10)
+var boundries2 = createSprite(200,386,400,10)
+var boundries3 = createSprite(14,200,10,400)
+var boundries4 = createSprite(386,200,10,400)
+var boundries5 = createSprite(200,140,400,10)
+var boundries6 = createSprite(200,260,400,10)
+boundries1.shapeColor = "white"
+boundries2.shapeColor = "white"
+boundries3.shapeColor = "white"
+boundries4.shapeColor = "white"
+boundries6.shapeColor = "white"
+boundries5.shapeColor = "white"
+computerPaddle.shapeColor = "black"
+playerPaddle.shapeColor = "black"
+
+function draw() {
+  if (keyDown('UP_ARROW')){
+    playerPaddle.y = playerPaddle.y-7
+  }
+  if (keyDown('DOWN_ARROW')){
+    playerPaddle.y = playerPaddle.y+7
+  }
+    if (keyDown('LEFT_ARROW')){
+    playerPaddle.x = playerPaddle.x-7
+  }
+  if (keyDown('RIGHT_ARROW')){
+    playerPaddle.x = playerPaddle.x+7
+  }
+  computerPaddle.x = striker.x
+    
+  background("green")
+  createEdgeSprites()
+   createEdgeSprites();
+  striker.bounceOff(edges);;
+  striker.bounceOff(playerPaddle);
+  striker.bounceOff(computerPaddle);
+ computerPaddle.bounceOff(boundries1)
+ computerPaddle.bounceOff(boundries2)
+ computerPaddle.bounceOff(boundries3)
+ computerPaddle.bounceOff(boundries4)
+ playerPaddle.bounceOff(boundries1)
+ playerPaddle.bounceOff(boundries2)
+ playerPaddle.bounceOff(boundries3)
+ playerPaddle.bounceOff(boundries4)
+  striker.bounceOff(boundries1)
+ striker.bounceOff(boundries2)
+ striker.bounceOff(boundries3)
+ striker.bounceOff(boundries4)
+  
+  //serve the ball when space is pressed
+  
+  
+  textSize(20)
+   stroke("red")
+  fill("red")
+  text(pscore,35,185)
+  textSize(20)
+  stroke("red")
+  fill("red")
+  text(cscore,35,230)
+
+  for (var i = 0; i < 400; i+=20) {
+    line(i,200,i+10,200)
+  }
+  if (gameState === "serve") {
+    textSize(20)
+    stroke("brown")
+    fill("red")
+    
+    text("Press Space to Serve",150,180);
+  }
+  if (keyDown("space") && gameState === "serve") {
+    reset();
+    gameState = "play";
+    striker.setVelocity(5,5)
+  }
+ if (striker.isTouching(goal1)){
+ 
+ cscore = cscore+1
+  }
+  if (striker.isTouching(goal2)){
+    pscore = pscore+1}
+    if(striker.isTouching(goal1) || striker.isTouching(goal2)) {
+    reset();
+    gameState = "serve"
+  }
+  if (pscore==5||cscore==5){
+    text("Game Over Press'r' to restart",97,187)
+    gameState = "over"
+  }
+  if (keyDown("r")&&gameState=="over"){
+    cscore = 0
+    pscore = 0
+    gameState = "serve"
+  }
+  drawSprites()
+  
+}
+function serve() {
+  striker.velocityX = 3;
+  striker.velocityY = 4;
+}
+function reset() {
+  striker.x = 200;
+  striker.y = 200;
+  striker.velocityX = 0;
+  striker.velocityY = 0;
+}
+
 </html>
